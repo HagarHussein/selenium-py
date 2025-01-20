@@ -8,6 +8,7 @@ class DuckDuckGoSearchPage:
 
     SEARCH_INPUT = (By.ID, "searchbox_input")
     URL = "https://duckduckgo.com/"
+    SEARCH_BUTTON = (By.CSS_SELECTOR, "button[aria-label='Search']")
 
     def __init__(self, browser):
         self.browser = browser
@@ -21,3 +22,7 @@ class DuckDuckGoSearchPage:
          # find_elemnt() take 2 arguments, locator type and locator. Tuple -> (type & locator)
         search_input = self.browser.find_element(*self.SEARCH_INPUT)
         search_input.send_keys(phrase + Keys.RETURN)
+
+    def search_then_click_btn(self, phrase):
+        self.browser.find_element(*self.SEARCH_INPUT).send_keys(phrase)
+        self.browser.find_element(*self.SEARCH_BUTTON).click()
