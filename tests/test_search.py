@@ -43,11 +43,22 @@ def test_duckduckgo_search_then_click_btn(browser):
         assert PHRASE.lower() in title.lower()
 
 def test_search_result_redirection(browser):
+    search_page = DuckDuckGoSearchPage(browser)
+    result_page = DuckDuckGoResultsPage(browser)
+    PHRASE = "Palestine"
+
     # GIVEN: the DuckduckGo home page is displayed
+    search_page.load()
+
     # WHEN: the user searches for <phrase>
+    search_page.search_then_click_btn(PHRASE)
+
+    link = result_page.get_elem_link_by_index(0)
     # AND: user clicks on the first link in results page
+    result_page.click_on_link_by_index(0)
+
     # THEN: the window is redirected to the new clicked url
-    raise Exception("Not Implemented Test")
+    assert  result_page.get_current_window_url() == link
 
 
 def test_more_results_links(browser):

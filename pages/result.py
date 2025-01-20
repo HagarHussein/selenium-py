@@ -18,3 +18,16 @@ class DuckDuckGoResultsPage:
 
     def title(self):
         return self.browser.title
+
+    def click_on_link_by_index(self, index):
+        self.browser.find_elements(*self.RESULTS_LINKS)[index].click()
+
+    def get_elem_link_by_index(self, index):
+        return self.get_href_link(self.browser.find_elements(*self.RESULTS_LINKS)[index])
+
+    def get_href_link(self, elem):
+        return elem.get_attribute("href")
+
+    def get_current_window_url(self):
+        return self.browser.current_url
+
