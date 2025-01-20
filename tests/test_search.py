@@ -26,8 +26,6 @@ def test_basic_duckduckgo_search(browser, phrase):
     # And the search result title contains "panda
     assert phrase in result_page.title()
 
-    # TODO : remove it once test implementation is completed
-    #raise Exception("Incomplete test")
 
 @pytest.mark.ui
 def test_duckduckgo_search_then_click_btn(browser):
@@ -43,3 +41,67 @@ def test_duckduckgo_search_then_click_btn(browser):
     assert PHRASE in result_page.title()
     for title in result_page.results_link_titles():
         assert PHRASE.lower() in title.lower()
+
+def test_search_result_redirection(browser):
+    # GIVEN: the DuckduckGo home page is displayed
+    # WHEN: the user searches for <phrase>
+    # AND: user clicks on the first link in results page
+    # THEN: the window is redirected to the new clicked url
+    raise Exception("Not Implemented Test")
+
+
+def test_more_results_links(browser):
+    # GIVEN: the DuckduckGo home page is displayed
+    # WHEN: the user searches for <phrase>
+    # AND: user click on "more results" link
+    # THEN: the results links are expanded (number of links increases)
+    # AND: the new links contains <pharse>
+    raise Exception("Not Implemented Test")
+
+def test_auto_complete_search_text(browser):
+    # GIVEN: the DuckduckGo home page is displayed
+    # WHEN: the user searches for <phrase initials>
+    # THEN: the suggested list all start with the same <phrase initials>
+    raise Exception("Not Implemented Test")
+
+def test_auto_complete_search_results(browser):
+    # GIVEN: the DuckduckGo home page is displayed
+    # WHEN: the user searches for <phrase initials>
+    # AND: user selects first suggestion
+    # THEN: the search results links contains the  <selected phrase suggestion>
+    # AND: the search result title contains <phrase>
+    # AND: the search result query is <phrase>
+    raise Exception("Not Implemented Test")
+
+def test_search_from_results_page(browser):
+    # GIVEN: the DuckduckGo home page is displayed
+    # WHEN: the user searches for <phrase>
+    # AND: user changes the search in the results page to <phrase>
+    # THEN: the search results are changed into the new <phrase> (all links)
+    # AND: the search result title contains <phrase>
+    # AND: the search result query is <phrase>
+    raise Exception("Not Implemented Test")
+
+def test_search_images(browser):
+    # GIVEN: the DuckduckGo home page is displayed
+    # WHEN: the user searches for <phrase>
+    # AND: user select images results
+    # THEN: the search results are changed into images with titles containing <phrase>
+    # AND: image resolution label appears
+    raise Exception("Not Implemented Test")
+
+def test_search_videos(browser):
+    # GIVEN: the DuckduckGo home page is displayed
+    # WHEN: the user searches for <phrase>
+    # AND: user select videos results
+    # THEN: the search results are changed into videos with video names containing <phrase>
+    # AND: video source img and label appears
+    raise Exception("Not Implemented Test")
+
+def test_search_news(browser):
+    # GIVEN: the DuckduckGo home page is displayed
+    # WHEN: the user searches for <phrase>
+    # AND: user select news results
+    # THEN: the search results are changed into news
+    raise Exception("Not Implemented Test")
+
