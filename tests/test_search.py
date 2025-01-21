@@ -62,12 +62,24 @@ def test_search_result_redirection(browser):
 
 
 def test_more_results_links(browser):
+    search_page = DuckDuckGoSearchPage(browser)
+    result_page = DuckDuckGoResultsPage(browser)
+    PHRASE = "Palestine"
+
     # GIVEN: the DuckduckGo home page is displayed
+    search_page.load()
+
     # WHEN: the user searches for <phrase>
+    search_page.search_then_click_btn(PHRASE)
+
+    num_of_links_before = result_page.get_num_of_results_links()
     # AND: user click on "more results" link
+    result_page.click_on_more_results()
+
     # THEN: the results links are expanded (number of links increases)
-    # AND: the new links contains <pharse>
-    raise Exception("Not Implemented Test")
+    num_of_links_after = result_page.get_num_of_results_links()
+    assert num_of_links_after > num_of_links_before
+
 
 def test_auto_complete_search_text(browser):
     # GIVEN: the DuckduckGo home page is displayed
