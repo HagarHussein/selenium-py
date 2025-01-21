@@ -27,7 +27,11 @@ class DuckDuckGoSearchPage:
 
     def search_then_click_btn(self, phrase):
         self.browser.find_element(*self.SEARCH_INPUT).send_keys(phrase)
+        self.click_search_btn()
+
+    def click_search_btn(self):
         self.browser.find_element(*self.SEARCH_BUTTON).click()
+
 
     def fill_search_textbox(self, phrase):
         search_input = self.browser.find_element(*self.SEARCH_INPUT)
@@ -39,3 +43,8 @@ class DuckDuckGoSearchPage:
 
     def search_input_value(self):
         return self.browser.find_element(*self.SEARCH_INPUT).get_attribute('value')
+
+    def press_enter_key_on_search_box(self):
+        self.browser.find_element(*self.SEARCH_INPUT).click()
+        self.actions.send_keys(Keys.ENTER).perform()
+

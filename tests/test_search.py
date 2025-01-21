@@ -1,3 +1,5 @@
+import time
+
 import pytest
 
 from pages.result import DuckDuckGoResultsPage
@@ -98,13 +100,32 @@ def test_auto_complete_search_text(browser):
 
 
 def test_auto_complete_search_results(browser):
+    search_page = DuckDuckGoSearchPage(browser)
+    result_page = DuckDuckGoResultsPage(browser)
+
+    PHRASE = "Pale"
+
     # GIVEN: the DuckduckGo home page is displayed
+    search_page.load()
+
     # WHEN: the user searches for <phrase initials>
+    search_page.fill_search_textbox(PHRASE)
+
     # AND: user selects first suggestion
+    search_page.press_down_key_on_search_box()
+    searched_phrase = search_page.search_input_value()
+    search_page.press_enter_key_on_search_box()
+
     # THEN: the search results links contains the  <selected phrase suggestion>
+    for title in result_page.results_link_titles():
+        assert PHRASE.lower() in title.lower()
+
     # AND: the search result title contains <phrase>
+    assert searched_phrase in result_page.title()
+
     # AND: the search result query is <phrase>
-    raise Exception("Not Implemented Test")
+    assert searched_phrase == result_page.search_input_value()
+
 
 def test_search_from_results_page(browser):
     # GIVEN: the DuckduckGo home page is displayed
