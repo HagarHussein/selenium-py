@@ -82,10 +82,20 @@ def test_more_results_links(browser):
 
 
 def test_auto_complete_search_text(browser):
+    search_page = DuckDuckGoSearchPage(browser)
+    PHRASE = "Pale"
+
     # GIVEN: the DuckduckGo home page is displayed
+    search_page.load()
+
     # WHEN: the user searches for <phrase initials>
+    search_page.fill_search_textbox(PHRASE)
+
     # THEN: the suggested list all start with the same <phrase initials>
-    raise Exception("Not Implemented Test")
+    for i in range(0,8):
+        search_page.press_down_key_on_search_box()
+        assert PHRASE not in search_page.search_input_value()
+
 
 def test_auto_complete_search_results(browser):
     # GIVEN: the DuckduckGo home page is displayed
