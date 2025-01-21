@@ -3,15 +3,22 @@ from tests.conftest import browser
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver import Keys
+
 
 class DuckDuckGoResultsPage:
+
+
     RESULTS_LINKS = (By.CSS_SELECTOR, "a[data-testid='result-title-a']")
     SEARCH_INPUT = (By.ID, "search_form_input")
     MORE_RESULTS = (By.ID, "more-results")
     PAGE_2_RESULTS = (By.CSS_SELECTOR, "div[aria-label='Page 2']")
+    SEARCHES_RELATED_TO_TEXT = (By.CSS_SELECTOR, "p.related-searches__title-long")
+
 
     def __init__(self, browser):
         self.browser = browser
+        self.WAIT = WebDriverWait(self.browser, 20)
 
     def results_link_titles(self):
         links = self.browser.find_elements(*self.RESULTS_LINKS)
@@ -21,6 +28,10 @@ class DuckDuckGoResultsPage:
         return self.browser.find_element(*self.SEARCH_INPUT).get_attribute('value')
 
     def title(self):
+        # using this wait condition to make sure the document is ready before returning its title
+        # to make sure it will become ready for any preceding actions in the tests
+        self.WAIT.until(
+            lambda driver: driver.execute_script("return document.readyState") == "complete")
         return self.browser.title
 
     def click_on_link_by_index(self, index):
@@ -47,10 +58,16 @@ class DuckDuckGoResultsPage:
         self.scroll_to_element_js(elem)
         elem.click()
 
-        wait = WebDriverWait(self.browser, 10)
-        wait.until(EC.presence_of_element_located(self.PAGE_2_RESULTS))
+        self.WAIT.until(EC.presence_of_element_located(self.PAGE_2_RESULTS))
 
 
     def get_num_of_results_links(self):
         return len(self.browser.find_elements(*self.RESULTS_LINKS))
+
+    def search_from_results(self, phrase):
+        search_input = self.browser.find_element(*self.SEARCH_INPUT)
+        search_input.send_keys(phrase + Keys.RETURN)
+
+    def clear_search_box(self):
+        self.browser.find_element(*self.SEARCH_INPUT).clear()
 
