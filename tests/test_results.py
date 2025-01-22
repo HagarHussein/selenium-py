@@ -28,29 +28,44 @@ def test_search_from_results_page(browser):
 
     # THEN: the search results are changed into the new <phrase> (all links)
     for title in result_page.results_link_titles():
-        print(title)
         assert phrase.lower() in title.lower()
 
 
 def test_search_images(browser):
+    search_page = DuckDuckGoSearchPage(browser)
+    result_page = DuckDuckGoResultsPage(browser)
+    phrase = "Palestine"
+
     # GIVEN: the DuckduckGo home page is displayed
+    search_page.load()
+
     # WHEN: the user searches for <phrase>
+    search_page.search_then_click_btn(phrase)
+
     # AND: user select images results
-    # THEN: the search results are changed into images with titles containing <phrase>
-    # AND: image resolution label appears
-    raise Exception("Not Implemented Test")
+    result_page.click_on_images_link()
+
+    # THEN: the search results shows images
+    assert result_page.check_img_results_existed() == True
+
+    # AND : the search results links list is not empty
+    assert len(result_page.get_img_results_links()) != 0
+
 
 def test_search_videos(browser):
-    # GIVEN: the DuckduckGo home page is displayed
-    # WHEN: the user searches for <phrase>
-    # AND: user select videos results
-    # THEN: the search results are changed into videos with video names containing <phrase>
-    # AND: video source img and label appears
-    raise Exception("Not Implemented Test")
+    search_page = DuckDuckGoSearchPage(browser)
+    result_page = DuckDuckGoResultsPage(browser)
+    phrase = "Palestine"
 
-def test_search_news(browser):
     # GIVEN: the DuckduckGo home page is displayed
+    search_page.load()
+
     # WHEN: the user searches for <phrase>
-    # AND: user select news results
-    # THEN: the search results are changed into news
-    raise Exception("Not Implemented Test")
+    search_page.search_then_click_btn(phrase)
+
+    # AND: user select videos results
+    result_page.click_on_videos_link()
+
+    # THEN: video source img and label appears
+    assert result_page.check_video_source_results_existed() == True
+    assert result_page.check_video_source_logo_existed() == True

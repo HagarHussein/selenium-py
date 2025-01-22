@@ -14,7 +14,12 @@ class DuckDuckGoResultsPage:
     MORE_RESULTS = (By.ID, "more-results")
     PAGE_2_RESULTS = (By.CSS_SELECTOR, "div[aria-label='Page 2']")
     SEARCHES_RELATED_TO_TEXT = (By.CSS_SELECTOR, "p.related-searches__title-long")
-
+    IMAGES_LINK = (By.XPATH, "//a[text()='Images']")
+    RESULTS_IMGS = (By.CSS_SELECTOR, 'img.tile--img__img')
+    VIDEOS_LINK = (By.XPATH, "//a[text()='Videos']")
+    VIDEO_SOURCE = (By.CSS_SELECTOR, "span.video-source")
+    VIDEO_SOURCE_LOGO = (By.CSS_SELECTOR, 'img.tile__favicon')
+    NEWS_LINK = (By.XPATH, "//a[text()='News']")
 
     def __init__(self, browser):
         self.browser = browser
@@ -71,3 +76,32 @@ class DuckDuckGoResultsPage:
     def clear_search_box(self):
         self.browser.find_element(*self.SEARCH_INPUT).clear()
 
+    def click_on_images_link(self):
+        self.WAIT.until(EC.presence_of_element_located(self.IMAGES_LINK))
+        self.browser.find_element(*self.IMAGES_LINK).click()
+
+    def check_img_results_existed(self):
+        try:
+            return self.browser.find_element(*self.RESULTS_IMGS).is_displayed()
+        except NoSuchElementException:
+            return False
+
+    def click_on_videos_link(self):
+        self.WAIT.until(EC.presence_of_element_located(self.VIDEOS_LINK))
+        self.browser.find_element(*self.VIDEOS_LINK).click()
+
+    def check_video_source_results_existed(self):
+        try:
+            return self.browser.find_element(*self.VIDEO_SOURCE).is_displayed()
+        except NoSuchElementException:
+            return False
+
+    def check_video_source_logo_existed(self):
+        try:
+            return self.browser.find_element(*self.VIDEO_SOURCE_LOGO).is_displayed()
+        except NoSuchElementException:
+            return False
+
+    def click_on_news_link(self):
+        self.WAIT.until(EC.presence_of_element_located(self.NEWS_LINK))
+        self.browser.find_element(*self.NEWS_LINK).click()
